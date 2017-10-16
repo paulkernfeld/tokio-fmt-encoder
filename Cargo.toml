@@ -1,0 +1,13 @@
+[package]
+name = "tokio-fmt-encoder"
+description = "A Tokio Encoder for Debug and Display"
+readme = "README.md"
+version = "0.1.0"
+authors = ["Paul Kernfeld <paulkernfeld@gmail.com>"]
+license = "MIT/Apache-2.0"
+documentation = "https://crates.io/crates/tokio-fmt-encoder"
+repository = "https://github.com/paulkernfeld/tokio-fmt-encoder"
+
+[dependencies]
+bytes    = "0.4"
+tokio-io = "0.1"

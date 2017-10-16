@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -e
+
+cargo watch -w src \
+            -x "test --lib" \
+            -x "test --doc" \
+            -x clippy \
+            -x "fmt -- --write-mode=diff" \
+            -x "readme -o README.md"

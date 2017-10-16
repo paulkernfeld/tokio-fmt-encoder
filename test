@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -e
+
+cargo test --lib
+cargo test --doc
+cargo clippy
+cargo fmt -- --write-mode=diff
+cargo readme -o README.md
