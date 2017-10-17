@@ -16,7 +16,7 @@
 //!     let to_encode = Some(10);
 //!     let mut buffer = BytesMut::with_capacity(64);
 //!     let mut encoder: DebugEncoder<Option<usize>> = Default::default();
-//!     encoder.encode(&to_encode, &mut buffer).unwrap();
+//!     encoder.encode(to_encode, &mut buffer).unwrap();
 //!     assert_eq!(&buffer.take(), &"Some(10)\n");
 //! }
 //! ```
@@ -37,7 +37,7 @@
 //!     let to_encode = String::from("hello");
 //!     let mut buffer = BytesMut::with_capacity(64);
 //!     let mut encoder: DisplayEncoder<String> = Default::default();
-//!     encoder.encode(&to_encode, &mut buffer).unwrap();
+//!     encoder.encode(to_encode, &mut buffer).unwrap();
 //!     assert_eq!(&buffer.take(), &"hello\n");
 //! }
 //! ```
@@ -66,18 +66,18 @@ impl From<std::io::Error> for Error {
 }
 
 /// Encode items that implement `Debug`, separated by newlines.
-pub struct DebugEncoder<'a, I: 'a> {
-    _i: PhantomData<&'a I>, // TODO can this be removed?
+pub struct DebugEncoder<I> {
+    _i: PhantomData<I>, // TODO can this be removed?
 }
 
-impl<'a, I> Default for DebugEncoder<'a, I> {
+impl<I> Default for DebugEncoder<I> {
     fn default() -> Self {
         Self { _i: PhantomData }
     }
 }
 
-impl<'a, I: Debug + 'a> Encoder for DebugEncoder<'a, I> {
-    type Item = &'a I;
+impl<I: Debug> Encoder for DebugEncoder<I> {
+    type Item = I;
     type Error = Error;
 
     fn encode(&mut self, item: Self::Item, dst: &mut BytesMut) -> Result<(), Self::Error> {
@@ -86,18 +86,18 @@ impl<'a, I: Debug + 'a> Encoder for DebugEncoder<'a, I> {
 }
 
 /// Encode items that implement `Display`, separated by newlines.
-pub struct DisplayEncoder<'a, I: 'a> {
-    _i: PhantomData<&'a I>, // TODO can this be removed?
+pub struct DisplayEncoder<I> {
+    _i: PhantomData<I>, // TODO can this be removed?
 }
 
-impl<'a, I> Default for DisplayEncoder<'a, I> {
+impl<I> Default for DisplayEncoder<I> {
     fn default() -> Self {
         Self { _i: PhantomData }
     }
 }
 
-impl<'a, I: Display + 'a> Encoder for DisplayEncoder<'a, I> {
-    type Item = &'a I;
+impl<I: Display> Encoder for DisplayEncoder<I> {
+    type Item = I;
     type Error = Error;
 
     fn encode(&mut self, item: Self::Item, dst: &mut BytesMut) -> Result<(), Self::Error> {
