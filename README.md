@@ -18,7 +18,7 @@ fn main() {
     use tokio_io::codec::Encoder;
 
     let to_encode = Some(10);
-    let mut buffer = BytesMut::with_capacity(64);
+    let mut buffer: BytesMut = Default::default();
     let mut encoder: DebugEncoder<Option<usize>> = Default::default();
     encoder.encode(to_encode, &mut buffer).unwrap();
     assert_eq!(&buffer.take(), &"Some(10)\n");
@@ -39,7 +39,7 @@ fn main() {
     use tokio_io::codec::Encoder;
 
     let to_encode = String::from("hello");
-    let mut buffer = BytesMut::with_capacity(64);
+    let mut buffer: BytesMut = Default::default();
     let mut encoder: DisplayEncoder<String> = Default::default();
     encoder.encode(to_encode, &mut buffer).unwrap();
     assert_eq!(&buffer.take(), &"hello\n");
