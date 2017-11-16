@@ -2,6 +2,8 @@
 
 Encode items that implement formatting traits like `Debug` and `Display`.
 
+This might be useful for debugging streams. Note that there is no corresponding `Decoder`.
+
 To encode an item that implements `Debug`:
 
 ```rust
